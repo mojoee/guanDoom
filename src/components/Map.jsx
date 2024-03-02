@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import CounterButton from './CounterButton';
+import CreateProposalForm from './CreateProposalForm';
 
 
 const MapEventHandler = ({ onClick }) => {
@@ -21,6 +22,7 @@ const Map = () => {
   const addMarker = (latlng) => {
     setMarkers([...markers, latlng]); // Add the new marker position to the state
   };
+  
 
   return (
     <MapContainer center={position} zoom={13} style={{ height: '800px', width: '100%' }}>
@@ -32,7 +34,8 @@ const Map = () => {
       {markers.map((position, idx) => (
         <Marker key={`marker-${idx}`} position={position}>
           <Popup>
-            <div>New Proposal X!</div>
+            <div class="headerStyle">Proposal X!</div>
+            <CreateProposalForm />
             <CounterButton />
           </Popup>
         </Marker>
