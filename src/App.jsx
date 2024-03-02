@@ -34,7 +34,7 @@ function App() {
           <Router>
             <Routes>
               <Route
-                path="/"
+                path="/chat"
                 element={
                   <>
                     <Header />
@@ -45,7 +45,7 @@ function App() {
               />
               <Route path="*" element={<p>Not found</p>} />
               <Route
-                path="/map"
+                path="/"
                 element={
                   <>
                     <Header />

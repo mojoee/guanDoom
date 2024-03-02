@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaf
 import 'leaflet/dist/leaflet.css';
 import CounterButton from './CounterButton';
 import CreateProposalForm from './CreateProposalForm';
-
+import ProposalEntryTrigger from './ProposalEntryTrigger';
 
 const MapEventHandler = ({ onClick }) => {
   useMapEvents({
@@ -35,7 +35,7 @@ const Map = () => {
         <Marker key={`marker-${idx}`} position={position}>
           <Popup>
             <div class="headerStyle">Proposal X!</div>
-            <CreateProposalForm />
+            <ProposalEntryTrigger />
             <CounterButton />
           </Popup>
         </Marker>

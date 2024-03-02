@@ -1,59 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const CreateProposalForm = () => {
+const CreateProposalForm = ({ onClose, markerCoordinates }) => {
   const [proposal, setProposal] = useState({
     topic: '',
-    coordinates: { lat: '', lng: '' },
-    marker: '',
-    type: ''
+    description: '',
+    dateCreated: new Date().toISOString().substring(0, 10), // Format the current date as YYYY-MM-DD
+    lat: '', // Initialize latitude
+    lng: '', // Initialize longitude
   });
+
+  // Update form state with marker coordinates when they change
+  useEffect(() => {
+    if (markerCoordinates) {
+      setProposal(prevState => ({
+        ...prevState,
+        lat: markerCoordinates.lat,
+        lng: markerCoordinates.lng,
+      }));
+    }
+  }, [markerCoordinates]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'lat' || name === 'lng') {
-      setProposal(prevState => ({
-        ...prevState,
-        coordinates: {
-          ...prevState.coordinates,
-          [name]: value
-        }
-      }));
-    } else {
-      setProposal(prevState => ({
-        ...prevState,
-        [name]: value
-      }));
-    }
+    setProposal({ ...proposal, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Proposal Created:', proposal);
-    // Here, you would typically send the proposal to your backend or state management store
+    console.log('Submitting Proposal:', proposal);
+    onClose(); // Close form upon submission
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Topic:</label>
-        <input
-          type="text"
-          name="topic"
-          value={proposal.topic}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Type:</label>
-        <select name="type" value={proposal.type} onChange={handleChange}>
-          <option value="">Select a type</option>
-          <option value="type1">Type 1</option>
-          <option value="type2">Type 2</option>
-          <option value="type3">Type 3</option>
-        </select>
-      </div>
-      <button type="submit">Create Proposal</button>
-    </form>
+    <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '5px', marginTop: '20px' }}>
+      <form onSubmit={handleSubmit}>
+        {/* Topic and Reason Fields */}
+        <div>
+          <label htmlFor="topic">Topic:</label>
+          <input
+            type="text"
+            name="topic"
+            id="topic"
+            value={proposal.topic}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="Topic description">Topic description:</label>
+          <input
+            type="text"
+            name="description"
+            id="description"
+            value={proposal.description}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="dateCreated">Date Created:</label>
+          <input
+            type="date"
+            name="dateCreated"
+            id="dateCreated"
+            value={proposal.dateCreated}
+            disabled // This field is auto-set and not editable by the user
+          />
+        </div>
+        <button type="submit">Submit Proposal</button>
+        <button type="button" onClick={onClose}>Cancel</button>
+      </form>
+    </div>
   );
 };
 
